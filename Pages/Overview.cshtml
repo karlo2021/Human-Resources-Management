@@ -1,0 +1,168 @@
+@page "/Overview/{label?}/{callback?}"
+@model IdentityApp.Pages.OverviewModel
+
+
+<form method="post" class="my-2">
+    <div class="row">
+        <div class="col-6">
+            <div class="input-group">
+                @if (Model.Criteria == "EmpDate" || Model.Criteria == "IntDate") {
+                    <label class="me-1"><b>From</b></label>
+                    <input type="date" class="form-control" asp-for="DateFrom" />
+                    <label class="mx-1"><b>To</b></label>
+                    <input type="date" class="form-control" asp-for="DateTo" />
+                } else {
+                    <input asp-for="Filter" placeholder="Find person by @Model.Criteria ..." class="form-control" />
+                }
+            </div>
+        </div>
+        <div class="col-2">
+                <select class="form-control" asp-for="Criteria">
+                    <option value="">Select Criteria</option>
+                    <option>Name</option>
+                    <option>Surname</option>
+                    <option>Workplace</option>
+                    <option>Rating</option>
+                    <option>Interests</option>
+                    <option value="EmpDate">Employment Date</option>
+                    <option value="IntDate">Interview Date</option>
+                </select>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-secondary">Filter</button>
+        </div>
+        <div class="col-1" title="Add new person">
+            <a class="btn btn-secondary" asp-page="Edit" asp-route-id="">
+                <i class="fa fa-plus"></i>
+                <i class="fa fa-user"></i>
+            </a>
+        </div>
+        <div class="col-2">
+            <table class="tabel table-bordered">
+                <thead>
+                    <tr>
+                        <td class="bg-secondary">
+                            <a class="btn">
+                                <i class="fa fa-border-all"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn" asp-page="View" asp-route-personPage="1" asp-route-id="">
+                                <i class="fa fa-list"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</form>
+
+@if (Model.Criteria == "Rating" || Model.Criteria == "Interests" || Model.Criteria=="EmpDate" 
+    || Model.Criteria == "IntDate") {
+<table class="table table-sm table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Rating</th>
+            <th>Interests</th>
+            <th>Employment Date (dd-MM-yyyy)</th>
+            <th>Interview Date (dd-MM-yyyy)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rec in Model.Records)
+        {
+            <tr>
+                <td>@rec.Id</td>
+                <td>@rec.Rating</td>
+                <td>@rec.Interests</td>
+                <td>@rec.EmploymentDate.ToString("dd-MM-yyyy")</td>
+                <td>@rec.InterviewDate.ToString("dd-MM-yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+} else {
+<div class="p-2">
+    <table class="table table-sm table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="col-2">Fullname</th>
+                <th class="col-2 text-center">Actions</th>
+                @if (!string.IsNullOrEmpty(Model.Callback)) {
+                    <th class="col-8 text-center">Records</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Person p in Model.Persons) {
+                <tr>
+                    <td class="col-2">@p.Name @p.Surname</td>
+                        <td class="col-2 text-center">
+                                        <a title="person details" asp-page="view" asp-route-personPage="1" asp-route-id="@p.Id" class="btn">
+                                            <i class="fa fa-info"></i>
+                                        </a>
+                                        <a title="edit person" class="btn" asp-page="edit" asp-route-id="@p.Id">
+                                            <i class="fa fa-pen"></i>
+                                        </a>
+                                        <a title="Add new record" class="btn" asp-page="editrecord" asp-route-id="@p.Id" asp-route-idr="">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                        <a title="Attach cv doc" asp-page="fileUpload" asp-route-id="@p.Id" class="btn">
+                                            <i class="fa fa-file"></i>
+                                        </a>
+                                        <a title="delete person" class="btn" asp-page="delete" asp-route-id="@p.Id">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                        </td>
+                    <td class="col-7">
+                        <table class="table table-sm table-striped table-bordered mt-1">
+                            <thead>
+                                <tr>
+                                    @if (p.Records.Count() > 0 ) {
+                                        <th>ID</th>
+                                        <th>Interests</th>
+                                        @if (!string.IsNullOrEmpty(Model.Callback)) {
+                                            <th class="text-center">Actions</th>
+                                        }
+                                    } else {
+                                        <td colspan="3" class="text-center">No Records</td>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var record in p.Records)
+                                {
+                                    
+                                    <tr>
+                                        <td>@record.Id</td>
+                                        <td>@record.Interests</td>
+                                        @if (!string.IsNullOrEmpty(Model.Callback)) {
+                                            <td class="text-center">
+                                                <a asp-page="EditRecord" 
+                                                    asp-route-id="@p.Id"
+                                                    asp-route-idr="@record.Id"
+                                                    asp-route-callback="overview"
+                                                    class="btn btn-secondary btn-sm">
+                                                    @Model.Callback
+                                                </a>
+                                                <a asp-page="deleteRecord" 
+                                                    asp-route-id="@record.Id"
+                                                    asp-route-callback="overview"
+                                                    class="btn btn-secondary btn-sm">
+                                                    Delete
+                                                </a>
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                
+            }
+        </tbody>
+    </table>
+</div>
+}

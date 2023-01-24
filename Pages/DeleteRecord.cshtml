@@ -1,0 +1,45 @@
+@page "/pages/deleterecord/{id?}/{callback?}"
+@model IdentityApp.Pages.DeleteRecordModel
+
+@if (Model.Id != null) {
+<form method="post" class="p-2">
+    <h3 class="bg-danger text-white text-center p-2">Caution</h3>
+    <h5 class="text-center m-2">
+        Delete @Model.Record.Id?
+    </h5>
+    <input type="hidden" name="id" value="@Model.Record.Id" />
+    <div class="text-center p-2">
+        <button type="submit" class="btn btn-danger" >Delete</button>
+        @if(Model.Callback == null) {
+            <a asp-page="deleteRecord" asp-route-id="" asp-route-callback="" 
+                class="btn btn-secondary">Cancel</a>
+        } else {
+            <a asp-page="Overview" class="btn btn-secondary">Cancel</a>
+        }
+    </div>
+</form>
+} else {
+    <table class="table table-bordered table-striped table-sm">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Employed</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in Model.Repository.Records.ToList())
+            {
+                <tr>
+                    <td class="col-3">@record.Id</td>
+                    <td class="col-3">@record.Employed</td>
+                    <td class="text-center col-3">
+                        <a class="btn btn-secondary btn-sm" asp-page="deleteRecord" asp-route-id="@record.Id">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,14 @@
+@page "/pages/delete/{id?}"
+@model IdentityApp.Pages.DeleteModel
+
+<form method="post" class="p-2">
+    <h3 class="bg-danger text-white text-center p-2">Caution</h3>
+    <h5 class="text-center m-2">
+        Delete @Model.Person.Name @Model.Person.Surname?
+    </h5>
+    <input type="hidden" name="id" value="@Model.Person.Id" />
+    <div class="text-center p-2">
+        <button type="submit" class="btn btn-danger" >Delete</button>
+        <a asp-page="Overview" asp-route-id="" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>

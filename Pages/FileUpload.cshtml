@@ -1,0 +1,10 @@
+@page "{Id?}"
+@model IdentityApp.Pages.FileUploadModel
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="myfile">Select a file:</label>
+        <input name="file" type="file" asp-for="@Model.FileUpload"><br><br>
+        <input type="submit">
+    </div>
+</form>

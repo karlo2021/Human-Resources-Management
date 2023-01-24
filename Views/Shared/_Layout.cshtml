@@ -1,0 +1,45 @@
+﻿@inject PersonDbContext DbContext
+@{
+    Day Day = DbContext.Days.First();
+    string theme = Day.BackgroundColor ?? ViewData["theme"] as string ?? "secondary";
+    bool showNav = ViewData["showNav"] as bool? ?? true;
+    string navPartial = ViewData["navPartial"] as string ?? "_Workflows";
+    string workflow = ViewData["workflow"] as string;
+    string banner = Day.BannerText ?? ViewData["banner"] as string ?? "User Dashboard";
+    bool showHeader = ViewData["showHeader"] as bool? ?? true;
+    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Person App</title>
+    <link href="/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+    @if (showHeader) {
+        <nav class="navbar navbar-dark bg-@theme">
+            <a class="navbar-brand text-white" asp-page="Landing">Persons App</a>
+            <div class="text-white"><partial name="_LoginPartial" /></div>
+        </nav>
+    }
+    <h4 class="bg-@theme text-center text-white p-2">@banner</h4>
+    <div class="my-2">
+        <div class="container-fluid">
+            <div class="row">
+                @if (showNav) {
+                    <div class="col-auto">
+                        <div class="d-grid gap-2">
+                            <partial name="_NavigationPartial"  />
+                        </div>
+                    </div>
+                }
+                <div class="col">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

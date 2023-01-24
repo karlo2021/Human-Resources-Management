@@ -1,0 +1,68 @@
+@page "{id?}"
+@model IdentityApp.Pages.RecordsModel
+
+<h4>@Model.Person.Name</h4>
+<table class="table table-sm table-striped table-bordered">
+  <thead>
+    <tr>
+      <th class="col-1">Id</th>
+      <th class="col-2">Interview Date</th>
+      <th class="col-2">Employment Date</th>
+      <th class="col-1">Interests</th>
+      <th class="col-1">Rating</th>
+      <th class="col-3">Note</th>
+      <th class="col-1">Employed</th>
+      @if (@Model.Id != null) {
+        <th></th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (Record record in Model.Records) {
+      <tr>
+        <td class="col-1">@record.Id</td>
+        <td class="col-2">@record.InterviewDate.ToString("dd-MM-yyyy")</td>
+        <td class="col-2">@record.EmploymentDate.ToString("dd-MM-yyyy")</td>
+        <td class="col-1">@record.Interests</td>
+        <td class="col-1">@record.Rating</td>
+        <td class="col-3">@record.Note</td>
+        <td class="col-1">@record.Employed</td>
+        @if (@Model.Id != null) {
+          <td class="text-center">
+            <a asp-page="EditRecord" asp-route-id="@Model.Id" asp-route-idr="@record.Id" 
+              class="btn btn-secondary btn-sm">
+              Edit  
+            </a>
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>
+
+<a asp-page="EditRecord" asp-route-id="@Model.Id" asp-route-idr="" class="btn btn-secondary">
+  Create Record
+</a>
+<a asp-page="Records" asp-route-id="" class="btn btn-secondary">
+  Back
+</a>
+
+@if (@Model.Arrows.HasPrev) {
+  <a asp-page="Records" asp-route-id="@Model.Arrows.IdPrev" class="btn btn-secondary">
+    <i class="fa fa-arrow-left"></i>
+  </a>
+} else {
+  <button disabled class="btn btn-secondary">
+    <i class="fa fa-arrow-left"></i>
+  </button>
+}
+
+@if (@Model.Arrows.HasNext) {
+  <a asp-page="Records" asp-route-id="@Model.Arrows.IdNext" class="btn btn-secondary">
+    <i class="fa fa-arrow-right"></i>
+  </a>
+} else {
+  <button disabled class="btn btn-secondary">
+    <i class="fa fa-arrow-right"></i>
+  </button>
+}

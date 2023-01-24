@@ -1,0 +1,28 @@
+﻿@inject UserManager<IdentityUser> UserManager
+@inject PersonDbContext DbContext
+@{
+	IdentityUser identityUser = await UserManager.GetUserAsync(User) ?? new IdentityUser();
+	string sideNavColor = DbContext.Days.First().SideNavColor ?? "secondary";
+}
+
+@if (User.Identity.IsAuthenticated) {
+	<a class="btn btn-@sideNavColor btn-block" asp-page="Landing">Home</a>
+	@*<a class="btn btn-secondary btn-block" asp-page="View" asp-route-personPage="1" asp-route-id=""  >Persons</a>*@
+	@*<a class="btn btn-secondary btn-block" asp-page="Records" asp-route-id="" >Person Records</a>*@
+}
+
+@if (await UserManager.IsInRoleAsync(identityUser, "Admin")) {
+	@*<a class="btn btn-secondary btn-block" asp-page="Edit" asp-route-id="" >Create Person</a>*@
+	@*<a class="btn btn-secondary btn-block" asp-page="Delete" asp-route-id="" >Delete Person</a>*@
+	@*<a class="btn btn-secondary btn-block" asp-page="DeleteRecord" asp-route-id="" >Delete Records</a>*@
+	<a class="btn btn-@sideNavColor btn-block" asp-page="Overview"  >Overview</a>
+}
+
+
+
+@if (await UserManager.IsInRoleAsync(identityUser, "Admin")){
+	<a class="btn btn-@sideNavColor btn-block" asp-page="Test" asp-route-id="1">Admin Actions</a>
+	<a class="btn btn-@sideNavColor btn-block" asp-page="Clearance">Clearance Levels</a>
+	@*<a class="btn btn-@sideNavColor btn-block" asp-page="Admin">Level 3</a>		*@
+}
+

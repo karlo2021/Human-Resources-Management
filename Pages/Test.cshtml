@@ -1,0 +1,228 @@
+@page "/pages/test/{id:long?}"
+@model IdentityApp.Pages.TestModel
+
+@* <table class="table table-sm table-striped table-bordered">
+    <thead>
+        <tr><th colspan="3" class="text-center"> Color Tester </th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th class="text-center col-3">Select Background Color</th>
+            <td>
+                <select class="form-control mt-2" form="formSelectBackground" name="backgroundColor">
+                    <option selected disabled>Choose Color</option>
+                    @foreach (var i in Model.Repository.Months.ToList())
+                    {
+                        <option value="@i.Name">@i.Name</option>
+                    }
+                </select>
+            </td>
+            <td class="text-center col-2">
+                <form method="post" asp-page-handler="SetBackground" id="formSelectBackground" class="p-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-secondary btn-sm">Test</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table> *@
+
+
+
+@* 
+<table class="table table-sm table-striped table-bordered">
+    <thead>
+        <tr><th colspan="3" class="text-center">Administrator - Days List</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th class="text-center col-3">Add New Day</th>
+            <td>
+                <input form="formAddDay" class="form-control" asp-for="@Model.Day.Name" />
+            </td>
+            <td class="text-center col-2">
+                <form method="post" asp-page-handler="addDay" id="formAddDay" class="p-2">
+                    <div class="form-group">
+                        <input class="form-control" hidden disabled readonly asp-for="@Model.Day.Id" />
+                        <button type="submit"
+                            class="btn btn-primary btn-sm">Add</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <th class="text-center col-3">Delete Day</th>
+            <td>
+                <select class="form-control mt-2" form="formDeleteDay" name="dayName">
+                    <option selected disabled>Choose Day</option>
+                    @foreach (var day in Model.Repository.Days.ToList())
+                    {
+                        <option value="@day.Name">@day.Name</option>
+                    }
+                </select>
+            </td>
+            <td class="text-center col-2">
+                <form method="post" asp-page-handler="deleteDay" id="formDeleteDay" class="p-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-secondary btn-sm">Delete</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table> *@
+
+@* 
+<table class="table table-sm table-striped table-bordered">
+    <thead>
+        <tr><th colspan="3" class="text-center">Administrator - Rating List</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th class="text-center col-3">Add New Rating Option</th>
+            <td>
+                <input form="formAddMonth" class="form-control" asp-for="@Model.Month.Name" />
+            </td>
+            <td class="text-center col-2">
+                <form method="post" asp-page-handler="addMonth" id="formAddMonth" class="p-2">
+                    <div class="form-group">
+                        <input class="form-control" hidden disabled readonly asp-for="@Model.Month.Id" />
+                        <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <th class="text-center col-3">Delete Rating Option</th>
+            <td>
+                <select class="form-control mt-2" form="formDeleteMonth" name="monthName">
+                    <option selected disabled>Choose Month</option>
+                    @foreach (var i in Model.Repository.Months.ToList())
+                    {
+                        <option value="@i.Name">@i.Name</option>
+                    }
+                </select>
+            </td>
+            <td class="text-center col-2">
+                <form method="post" asp-page-handler="deleteMonth" id="formDeleteMonth" class="p-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-secondary btn-sm">Delete</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table> *@
+
+<table class="table table-sm table-striped table-bordered" >
+    <thead>
+        <tr><th colspan="3" class="text-center">Administrator - Degree List</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th  class="text-center col-3">Add New Degree</th>
+            <td>
+                <input form="formAddDegree" class="form-control" asp-for="@Model.Degree.Name" />
+            </td>
+            <td class="text-center col-2">
+                <form method="post" asp-page-handler="addDegree" id="formAddDegree" class="p-2">
+                    <div class="form-group">
+                        <input class="form-control" hidden disabled readonly asp-for="@Model.Degree.Id" />
+                        <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <th class="text-center col-3">Delete Degree</th>
+            <td>
+                <select class="form-control mt-2" form="formDeleteDegree" name="degreeName">
+                    <option selected disabled>Choose Degree</option>
+                    @foreach (var degree in Model.Repository.Degrees.ToList())
+                    {
+                        <option value="@degree.Name">@degree.Name</option>
+                    }
+                </select>
+            </td>
+            <td class="text-center col-2">
+                <form method="post" asp-page-handler="deleteDegree" id="formDeleteDegree" class="p-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-secondary btn-sm">Delete</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-sm table-striped table-bordered" >
+    <thead>
+        <tr><th colspan="3" class="text-center"> CV Location </th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <form method="post" asp-page-handler="SelectFolder">
+                    <label for="myfile">Select a folder:</label>
+                    <select name="folderDestination" asp-for="@Model.Day.CvLocation">
+                        <option value="wwwroot\images">images</option>
+                        <option value="wwwroot\demo_1">demo_1</option>
+                        <option value="wwwroot\demo_2">demo_2</option>
+                    </select>
+                    @* <input type="text" name="folderDestination" asp-for="@Model.Day.CvLocation"/> *@
+                    <button class="btn btn-primary" type="submit">Select</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-sm table-striped table-bordered" >
+    <thead>
+        <tr><th colspan="3" class="text-center"> Appearance <i class="fa fa-palette"></i></th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th class="col-3">Banner Text</th>
+            <td >
+                <input class="form-control" hidden disabled asp-for="@Model.Day.Id" form="formAppearance" />
+                <input class="form-control" hidden disabled asp-for="@Model.Day.Name" form="formAppearance"/>
+                <input class="form-control" asp-for="@Model.Day.BannerText" form="formAppearance" />
+            </td>
+        </tr>
+        <tr>
+            <th class="col-3">Header Color</th>
+            <td >
+                <select class="form-control mt-2" asp-for="@Model.Day.BackgroundColor" form="formAppearance">
+                    @foreach (var i in Model.Repository.Months.ToList())
+                    {
+                        <option value="@i.Name">@i.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th class="col-3">Side Navigation Buttons Color</th>
+            <td >
+                <select class="form-control mt-2" asp-for="@Model.Day.SideNavColor" form="formAppearance">
+                    @foreach (var i in Model.Repository.Months.ToList())
+                    {
+                        <option value="@i.Name">@i.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th class="col-3">Save Changes</th>
+            <td class="text-center">
+                <form method="post" asp-page-handler="Appearance" id="formAppearance" class="p-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Save</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+

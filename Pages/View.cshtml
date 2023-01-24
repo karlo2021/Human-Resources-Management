@@ -1,0 +1,65 @@
+@page "{personPage:int}/{id?}"
+@model IdentityApp.Pages.ViewModel
+
+
+<table class="table table-sm table-striped table-bordered">
+  <thead>
+    <tr>
+      <th class="col-4">Property</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (string name in Model.PropertyNames)
+    {
+      @if (name != "Records") {
+        <tr>
+          <td class="col-4">@name</td>
+          <td class="text-truncate" style="max-width:250px">
+              @Model.GetValue(name)
+          </td>
+        </tr>
+      } else {
+        <tr>
+          <td class="col-4">@name</td>
+          <td class="text-truncate" style="max-width:250px">
+            @Model.Person.Records.Count()
+          </td>
+        </tr>
+      }
+    }
+  </tbody>
+</table>
+
+<a asp-page="Edit" asp-route-id="@Model.Id" class="btn btn-secondary">
+  Edit
+</a>
+<a asp-page="View" asp-route-id="" class="btn btn-secondary">
+  Back
+</a>
+<a asp-page="Records" asp-route-id="@Model.Id" class="btn btn-secondary">
+  Go to Records
+</a>
+@if (@Model.Arrows.HasPrev) {
+  <a asp-page="View" asp-route-id="@Model.Arrows.IdPrev" class="btn btn-secondary">
+    <i class="fa fa-arrow-left"></i>
+  </a>
+} else {
+  <button disabled class="btn btn-secondary">
+    <i class="fa fa-arrow-left"></i>
+  </button>
+}
+
+@if (@Model.Arrows.HasNext) {
+  <a asp-page="View" asp-route-id="@Model.Arrows.IdNext" class="btn btn-secondary">
+    <i class="fa fa-arrow-right"></i>
+  </a>
+} else {
+  <button disabled class="btn btn-secondary">
+    <i class="fa fa-arrow-right"></i>
+  </button>
+}
+
+
+
+

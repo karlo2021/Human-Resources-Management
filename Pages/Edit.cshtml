@@ -1,0 +1,68 @@
+﻿@page "/pages/edit/{id:long?}"
+@model IdentityApp.Pages.EditModel
+
+
+    <link rel="stylesheet" href="/css/styles.css" />
+<form method="post" class="p-2">
+	<div asp-validation-summary="All"></div>
+	<div class="form-group" hidden>
+		<label>ID</label>
+		<input class="form-control" readonly asp-for="@Model.Person.Id" />
+	</div>	
+	<div class="form-group">
+		<label>Name</label>
+		<input class="form-control" asp-for="@Model.Person.Name" />
+	</div>
+	<div class="form-group">
+		<label>Surname</label>
+		<input class="form-control" asp-for="@Model.Person.Surname" />
+	</div>
+	<div class="form-group">
+		<label>Birth (MM-dd-yyyy)</label>
+		<input type="date" class="form-control" asp-for="@Model.Person.Birth" />
+	</div>
+	<div class="form-group">
+		<label>Profession</label>
+		<input class="form-control" asp-for="@Model.Person.Profession" />
+	</div>
+	<div class="form-group">
+		<label>Workplace</label>
+		<input class="form-control" asp-for="@Model.Person.Workplace" />
+	</div>
+	<div class="form-group">
+		<label>Education Institute</label>
+		<input class="form-control" asp-for="@Model.Person.EducationInstitute" />
+	</div>
+	<div class="form-group">
+		<label>Education Degree</label>
+		<select class="form-control"  asp-for="@Model.Person.EducationDegree">
+			<label >Select Education Degree</label>
+			@foreach (var i in Model.Repository.Degrees.ToList())
+			{
+				<option>@i.Name</option>
+			}
+		</select>
+	</div>
+	<div class="form-group">
+		<label>Phone Number</label>
+		<input class="form-control" asp-for="@Model.Person.PhoneNumb" />
+	</div>
+	<div class="form-group">
+		<label>Email Address</label>
+		<input class="form-control" asp-for="@Model.Person.EmailAddress" />
+	</div>
+	<div class="form-group">
+		<label>CV Document</label>
+		<input class="form-control" readonly asp-for="@Model.Person.CvDoc" />
+	</div>
+	<div class="form-group">
+		<label>Employment</label>
+		<input class="form-control" asp-for="@Model.Person.Employment" />
+	</div>
+	<div class="text-center">
+		<button type="submit" class="btn btn-secondary">Save</button>
+		<a class="btn btn-secondary" asp-page="Overview" >Cancel</a>
+	</div>
+</form>
+
+

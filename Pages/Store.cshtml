@@ -1,0 +1,105 @@
+﻿
+@page "/store/{label?}/{callback?}/{personPage:int?}"
+@model IdentityApp.Pages.StoreModel
+@{
+	Func<string, string> getClass = (string item) =>
+		item == Model.PageModel.PagingInfo.CurrentPage.ToString() ? "btn-secondary text-white" : "";
+}
+
+<form method="post" class="my-2">
+    <div class="row">
+        <div class="col-6">
+            <div class="input-group">
+                <input asp-for="Filter" placeholder="Find person by @Model.Criteria ..." class="form-control" />
+            </div>
+        </div>
+        <div class="col-2">
+            <select class="form-control" asp-for="Criteria">
+                <option>Name</option>
+                <option>Surname</option>
+                <option>Workplace</option>
+                <option>Id</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-secondary">Filter</button>
+        </div>
+        <div class="col-2">
+          <table class="tabel table-bordered">
+                <thead>
+                    <tr>
+                        <td >
+                          <a class="btn" asp-page="Overview">
+                            <i class="fa fa-border-all"></i>
+                          </a>
+                        </td>
+                        <td class="bg-secondary">
+                          <a class="btn">
+                            <i class="fa fa-list"></i>
+                          </a>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</form>
+
+<div class="p-2">
+    <table class="table table-sm table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                @if (!string.IsNullOrEmpty(Model.Callback)) {
+                    <th />
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Person p in Model.PageModel.Persons ?? Enumerable.Empty<Person>()) {
+                <tr>
+                    <td>@p.Name</td>
+                    <td>@p.Surname</td>
+                    @* <td>@p.Birth.ToString("dd/MM/yyyy")</td>
+                    <td class="text-right">$@p.Rating.ToString("F2")</td> *@
+
+                    @if (!string.IsNullOrEmpty(Model.Callback)) {
+                        <td class="text-center">
+                            <a asp-page="@Model.Callback" asp-route-personPage="1" asp-route-id="@p.Id" class="btn">
+                                
+                        <i title="Person Details" class="fa fa-info"></i>
+                                
+                            </a>
+                             <a asp-page="Records" asp-route-personPage="1" asp-route-id="@p.Id" class="btn">
+                    <i title="Person Records" class="fa fa-layer-group"></i>
+                                 </a>
+                                <a title="delete person" class="btn" asp-page="delete" asp-route-id="@p.Id">
+                                <i class="fa fa-trash"></i>
+                              </a>
+                        </td>
+
+                    }
+                </tr>                
+            }
+        </tbody>
+    </table>
+</div>
+
+<div style="display:flex">
+  <div>
+        @foreach (var item in Model.PropertyNames)
+        {
+        <a asp-page="view" asp-route-personPage="@item" asp-route-id=""
+       class="btn btn-outline-dark btn-group pull-right @getClass(item)">@item</a>
+        }
+  </div>
+  <div class="ms-4">
+    <a class="btn btn-secondary" asp-page="Edit" asp-route-id="">Add New Person</a>
+    <a class="btn btn-secondary" asp-page="DeleteRecord" asp-route-id="">List All Records</a>
+
+  </div>
+</div>
+
+<div page-model="@Model?.PageModel.PagingInfo" page-action="Landing">
+</div>

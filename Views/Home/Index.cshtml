@@ -1,0 +1,9 @@
+@model PersonListViewModel
+
+@foreach (var p in Model?.Persons ?? Enumerable.Empty<Person>()) {
+    <partial name="PersonSummary" model="p" />
+}
+
+<div page-model="@Model?.PagingInfo" page-action="Index"
+     class="">
+</div>
